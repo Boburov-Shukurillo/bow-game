@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #darkModeSwitch {
+      cursor: pointer;
+    }
+  </style>
+  <body>
+    <canvas id="darkModeSwitch" width="120" height="60"></canvas>
+
+    <script>
+      const canvas = document.getElementById("darkModeSwitch");
+      const ctx = canvas.getContext("2d");
+
+      let isDarkMode = false;
+      let position = 0;
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw background
+        ctx.fillStyle = isDarkMode ? "#2c3e50" : "#f1c40f";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw sun/moon
+        ctx.fillStyle = isDarkMode ? "#f1c40f" : "#2c3e50";
+        ctx.beginPath();
+        ctx.arc(position, 30, 20, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function toggleDarkMode() {
+        isDarkMode = !isDarkMode;
+        draw();
+      }
+
+      function updatePosition() {
+        position =
+          (window.innerWidth * window.scrollY) /
+          (document.body.scrollHeight - window.innerHeight);
+        draw();
+      }
+
+      canvas.addEventListener("click", toggleDarkMode);
+      window.addEventListener("scroll", updatePosition);
+
+      draw();
+    </script>
+  </body>
+</html>
